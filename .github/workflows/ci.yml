@@ -40,3 +40,4 @@ jobs:
             echo "Detected uncommitted changes after build."
             git diff
             exit 1
+          fi
