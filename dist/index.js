@@ -4279,8 +4279,12 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const templateLocation = (0, core_1.getInput)('template-location');
         const terraformConfigLocation = (0, core_1.getInput)('terraform-config-location');
-        const context = (0, yaml_1.parse)((0, core_1.getInput)('context'));
-        yield (0, generator_1.generateFiles)(templateLocation, terraformConfigLocation, context);
+        const context = (0, core_1.getInput)('context');
+        let normalized = {};
+        if (context != null && context !== '') {
+            normalized = (0, yaml_1.parse)(context);
+        }
+        yield (0, generator_1.generateFiles)(templateLocation, terraformConfigLocation, normalized);
     });
 }
 run();
