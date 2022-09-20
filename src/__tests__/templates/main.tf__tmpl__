@@ -1,0 +1,4 @@
+module "meal-planner-frontend" {
+  source = "./module"
+  env    = "<%= env %>"
+}

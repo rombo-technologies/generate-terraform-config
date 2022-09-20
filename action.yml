@@ -1,0 +1,15 @@
+name: 'Generate Terraform Config'
+description: 'Generates Terraform config from a set of templateable source files'
+inputs:
+  templates-location:
+    description: Location of terraform template files
+    required: true
+  terraform-config-location:
+    description: Location of the terraform config result
+    required: true
+  context:
+    description: A stringified YML object containing the context to be used for templating substitutions
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
