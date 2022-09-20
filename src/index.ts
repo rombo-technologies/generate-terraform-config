@@ -4,7 +4,7 @@ import {parse} from 'yaml';
 import {generateFiles} from './generator';
 
 async function run() {
-  const templateLocation = getInput('template-location');
+  const templateLocation = getInput('templates-location');
   const terraformConfigLocation = getInput('terraform-config-location');
   const context = getInput('context');
 

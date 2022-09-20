@@ -4277,7 +4277,7 @@ const yaml_1 = __nccwpck_require__(6509);
 const generator_1 = __nccwpck_require__(5930);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        const templateLocation = (0, core_1.getInput)('template-location');
+        const templateLocation = (0, core_1.getInput)('templates-location');
         const terraformConfigLocation = (0, core_1.getInput)('terraform-config-location');
         const context = (0, core_1.getInput)('context');
         let normalized = {};
