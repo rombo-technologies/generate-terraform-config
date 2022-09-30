@@ -1,6 +1,7 @@
 import {copyFile, mkdir, readFile, stat, writeFile} from 'fs/promises';
 import {Stats} from 'fs';
 import {async} from 'walkdir';
+import {debug} from '@actions/core';
 import {dirname} from 'path';
 import {render} from 'ejs';
 
@@ -57,6 +58,8 @@ export async function generateFiles(
   const templates = await async(templatesLocation);
 
   for (const template of templates) {
+    debug('Processing ' + template);
+
     const descriptor = await getFileMeta(template);
 
     if (isStats(descriptor.stats) && descriptor.stats.isFile()) {
@@ -64,13 +67,18 @@ export async function generateFiles(
         templatesLocation,
         outputLocation
       );
+      debug(`Determined target path to be ${targetFile}`);
       await ensureDirectoryForFileIsPresent(targetFile);
 
       if (isTemplate(descriptor.path)) {
+        debug(`${template} was a template file, processing`);
         await writeTemplatedFile(targetFile, descriptor.path, context);
       } else {
+        debug(`${template} was not a template file, copying`);
         await copyFile(descriptor.path, targetFile);
       }
+    } else {
+      debug(`Stats for [${template}] could not be found or is not a file`);
     }
   }
 }

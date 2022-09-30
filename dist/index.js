@@ -4194,6 +4194,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateFiles = void 0;
 const promises_1 = __nccwpck_require__(3292);
 const walkdir_1 = __nccwpck_require__(6161);
+const core_1 = __nccwpck_require__(3060);
 const path_1 = __nccwpck_require__(1017);
 const ejs_1 = __nccwpck_require__(2745);
 function isStats(statsOrNull) {
@@ -4238,16 +4239,23 @@ function generateFiles(templatesLocation, outputLocation, context) {
     return __awaiter(this, void 0, void 0, function* () {
         const templates = yield (0, walkdir_1.async)(templatesLocation);
         for (const template of templates) {
+            (0, core_1.debug)('Processing ' + template);
             const descriptor = yield getFileMeta(template);
             if (isStats(descriptor.stats) && descriptor.stats.isFile()) {
                 const targetFile = descriptor.path.replace(templatesLocation, outputLocation);
+                (0, core_1.debug)(`Determined target path to be ${targetFile}`);
                 yield ensureDirectoryForFileIsPresent(targetFile);
                 if (isTemplate(descriptor.path)) {
+                    (0, core_1.debug)(`${template} was a template file, processing`);
                     yield writeTemplatedFile(targetFile, descriptor.path, context);
                 }
                 else {
+                    (0, core_1.debug)(`${template} was not a template file, copying`);
                     yield (0, promises_1.copyFile)(descriptor.path, targetFile);
                 }
+            }
+            else {
+                (0, core_1.debug)(`Stats for [${template}] could not be found or is not a file`);
             }
         }
     });
